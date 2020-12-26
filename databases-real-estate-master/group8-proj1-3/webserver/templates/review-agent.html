@@ -1,0 +1,47 @@
+<html>
+<style>
+    body {
+        font-size: 15pt;
+        font-family: arial;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+<body>
+    <h1>Review your agent</h1>
+    <h3>Your login is: {{ person_id }}! Remember it to login again.</h3>
+    <p><a href="/">Logout</a></p>
+    <p><a href="home?person_id={{ person_id }}">Return to home page</a></p>
+
+    <p>The agent for this booking is: {{ name }}. Their realtor license number is: {{ realtor_license }}.</p>
+    <p>Email {{ name }}: {{ email }}</p>
+    <p>Call {{ name }}: {{ phone }}</p>
+
+    <h1>Review this agent</h1>
+    <form name="AgentReview" method="POST" action="/new-agent-review">
+        <input type="hidden" name="person_id" value="{{ person_id }}" />
+        <input type="hidden" name="agent_id" value="{{ agent_id }}" />
+        <label for="ratingNumber">Rating number:</label>
+        <select id="ratingNumber" name="ratingNumber" size="5">
+            <option value="1">1 star</option>
+            <option value="2">2 stars</option>
+            <option value="3">3 stars</option>
+            <option value="4">4 stars</option>
+            <option value="5">5 stars</option>
+        </select>
+        <br />
+        <label for="reviewText">Write your review:</label>
+        <input type="text" id="reviewText" name="reviewText" maxlength=100 required>
+        <input type="submit">
+    </form>
+
+
+</body>
+
+
+</html>

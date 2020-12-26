@@ -1,0 +1,105 @@
+<html>
+<style>
+    body {
+        font-size: 15pt;
+        font-family: arial;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+<script>
+    function validateBudgetOrdering() {
+        // Get the max budget field from the customer setup form below
+        var maxBudget = document.forms["FilterListings"]["maxBudget"].value;
+        // Get the min budget field from the customer setup form below
+        var minBudget = document.forms["FilterListings"]["minBudget"].value;
+        // alert("Maximum price ." + maxBudget + " problem " + minBudget);
+
+        // Alter if the max budget is not greater than the min budget
+        // Need to compare the numbers are integers
+        if (parseInt(maxBudget) <= parseInt(minBudget)) {
+            alert("Maximum price must be greater than minumum price.");
+            return false;
+        }
+
+    }
+
+</script>
+
+
+<body>
+    <h1>Listings</h1>
+    <h3>Your login is: {{ person_id }}! Remember it to login again.</h3>
+    <p><a href="/">Logout</a></p>
+    <p><a href="home?person_id={{ person_id }}">Return to home page</a></p>
+
+    <h2>Hello: {{ name }}</h2>
+
+    <form name="FilterListings" method="POST" action="/filter-listings" onsubmit="return validateBudgetOrdering()">
+        <input type="hidden" name="person_id" value="{{ person_id }}" />
+
+        <label for="propertyType">Choose a property type:</label>
+        <select id="propertyType" name="propertyType" required>
+            <option value="rentable">Rentable</option>
+            <option value="buyable">Buyable</option>
+        </select>
+
+        <label for="maxBudget">Maximum Price</label>
+        <input type="number" name="maxBudget" id="maxBudget" min="0" max="999999999" required>
+
+        <label for="minBudget">Minimum Price</label>
+        <input type="number" name="minBudget" id="minBudget" min="0" max="999999999" required>
+
+        <label for="desiredBeds">Desired Beds</label>
+        <input type="number" name="desiredBeds" id="desiredBeds" min="0" max="99" required>
+
+        <label for="desiredBaths">Desired Baths</label>
+        <input type="number" name="desiredBaths" id="desiredBaths" min="0" max="99" required>
+
+        <label for="zipcode">Desired Zipcode</label>
+        <input type="text" name="zipcode" id="zipcode" pattern="[0-9]{5}" title="A zipcode has 5 digits." required>
+
+        <input type="submit" value="Save">
+    </form>
+    {% if person_type == "customer" %}
+    {% set edit_value = "yes" %}
+    <h4>Filling out the form above will not update your customer profile. <a
+            href="{{ url_for('setup_customer', person_id=person_id, edit=edit_value) }}">Edit your customer profile</a>
+    </h4>
+    {% set edit_value = "yes" %}
+
+    <br />
+    {% else %}
+    {% endif %}
+
+    <h3>Filters</h3>
+
+    {% for filter in session.pop('filters', dict()).items() %}
+    <li>{{ filter[0] }}: {{ filter [1] }}</li>
+    {% endfor %}
+
+    <h3>Search Results</h3>
+    <table>
+        {% set listings = session.pop('listings', []) %}
+        {% for header in listings[0] %}
+        <th>{{ header }}</th>
+        {% endfor %}
+
+        {% for listing in listings[1:] %}
+        <tr>
+            {% for field in listing %}
+            <td>{{ field|safe }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+
+</body>
+
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+    <meta name="ROBOTS" content="NOARCHIVE">
+    <title>cs4111.001: Ports and Google Cloud</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+
+    <link rel="stylesheet" type="text/css" href="http://www.cs.columbia.edu/~gravano/style.css"/>
+  </head>
+
+<body>
+<div class="container sec">
+
+<div style="background-color:#9bddff; color:#4682B4; padding:8px;">
+  <h4><a href="../index.html">COMS W4111.001-Introduction to Databases</a><br>
+  Spring 2020</h4>
+  <h2>Ports and Google Cloud</h2>
+</div>
+
+
+<h3>Opening a Port on Google Cloud</h3>
+
+<p>By default, Google Cloud puts your virtual machine behind a
+firewall, so it is not accessible from the internet. This is because
+anything that is accessible on the internet is constantly being probed
+by hackers. To make your Python web application accessible to anyone,
+as you need to do for this project, you will need to follow the steps
+below. Please make sure you don't put any valuable data on the virtual
+machine.</p>
+
+<p>Google Cloud has the concept of "Networks," with network firewall
+rules. When a virtual machine is created, it is placed in a
+project. All the virtual machines in that project have the same
+firewall rules applied. To make a port accessible, you need to edit
+the networks settings for the VM instances, as follows.</p>
+
+<ol>
+  <li>Go to your Google Cloud portal page for your virtual machine</li>
+  
+  <li>Once the Compute Engine is set up and ready click on the "VM
+    instances" link
+    <img alt="" src="./gcport_files/1.png" height="406" width="662">
+  </li>
+  
+  <li>Click on the "Network" link (see below); next, click on the
+  Firewall rules tab and add the required firewall rules using the
+  "Create firewall rule" button: write a name such as "allow-flask"; add
+  a rule for source IP range as 0.0.0.0/0, for allowed protocols as
+  tcp:8111, and for targets to "All Instances On Network"
+    <img alt="" src="./gcport_files/2.png" height="406" width="662">
+    <img alt="" src="./gcport_files/3.png" height="406" width="662">
+  </li>
+</ol>
+
+<p>You can now connect to your virtual machine at <code>http://(YOURIP):8111/</code></p>
+
+</div>
+<hr>
+</body>
+</html>

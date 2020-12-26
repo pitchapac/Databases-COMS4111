@@ -1,0 +1,78 @@
+<html>
+<style>
+    body {
+        font-size: 15pt;
+        font-family: arial;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+
+
+<body>
+    {% if property_id %}
+    <h1>Edit property listing</h1>
+    <li>Property type: {{ propertyType }}</li>
+    <li>Number of beds: {{ numBeds }}</li>
+    <li>Number of baths: {{ numBaths }}</li>
+    <li>Price: {{ price }}</li>
+    <li>Address: {{ address }}</li>
+    <li>Zipcode: {{ zipcode }}</li>
+    {% else %}
+    <h1>List a property</h1>
+    {% endif %}
+    <h3>Your login is: {{ person_id }}! Remember it to login again.</h3>
+    <p><a href="/">Logout</a></p>
+    <p><a href="home?person_id={{ person_id }}">Return to home page</a></p>
+
+    <h2>Hello: {{ name }}</h2>
+
+    <form name="ListProperty" method="POST" action="/new-list-property">
+        <input type="hidden" name="person_id" value="{{ person_id }}" />
+        <input type="hidden" name="property_id" value="{{ property_id }}" />
+
+
+        {% if property_id %}
+        <input type="hidden" name="existingPropertyType" value="{{ propertyType }}" />
+        {% else %}
+        <label for="propertyType">What type of property are you listing?:</label>
+        <select id="propertyType" name="propertyType" required>
+            <option value="rentable">Rentable</option>
+            <option value="buyable">Buyable</option>
+        </select>
+        {% set agents = session.pop('agents', []) %}
+        <label for="selectedAgent">Choose an agent:</label>
+        <select id="selectedAgent" name="selectedAgent" required>
+            {% for agent in agents %}
+            <option value="{{ agent[0] }}">{{ agent[1] }}</option>
+            {% endfor %}
+        </select>
+        {% endif %}
+        <label for="numBeds">Number of Beds</label>
+        <input type="number" name="numBeds" id="numBeds" min="0" max="99" required>
+
+        <label for="numBaths">Number of Baths</label>
+        <input type="number" name="numBaths" id="numBaths" min="0" max="99" required>
+
+        <label for="price">Price</label>
+        <input type="number" name="price" id="price" min="0" max="999999999" required>
+
+        <label for="address">Address</label>
+        <input type="text" name="address" id="address" maxlength=50 required>
+
+        <label for="zipcode">Zipcode</label>
+        <input type="text" name="zipcode" id="zipcode" pattern="[0-9]{5}" title="A zipcode has 5 digits." maxlength=5
+            required>
+
+        <input type="submit" value="Save">
+    </form>
+
+</body>
+
+
+</html>

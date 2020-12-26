@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="ROBOTS" content="NOINDEX, NOFOLLOW">
+    <meta name="ROBOTS" content="NOARCHIVE">
+    <title>cs4111.001: Google Cloud Setup</title>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"> -->
+
+    <!-- <link rel="stylesheet" type="text/css" href="http://www.cs.columbia.edu/~gravano/style.css"/> -->
+  </head>
+
+<body>
+<div class="container sec">
+
+<div style="background-color:#9bddff; color:#4682B4; padding:8px;">
+  <h4>COMS W4111.001-Introduction to Databases<br>
+  Spring 2020</h4>
+  <h2>Google Cloud Setup</h2>
+</div>
+
+
+<h3>Setting Up your Google Cloud Account</h3>
+
+<p>This page provides instructions on how to set up a Linux virtual
+machine and PostgreSQL database running on Google Cloud. We will be
+using Google's cloud computing infrastructure for Parts 2 and 3 of
+the project. You will receive an email from Po-Yu with your individual
+Google Cloud code that will provide you with enough credit for the
+class. (This email will also include the login credentials for your
+PostgreSQL database account.)</p>
+
+<p><strong>Caution:</strong> Running services (e.g., virtual machines)
+on any cloud provider costs money or credits. It can be very easy to
+spend more than you anticipated by leaving your services running. So
+please make it a habit to stop your services when not in use. If you
+run out of credits, there's not much that the class staff can do to
+help you out.</p>
+
+<h4>Signing Up and Setting Up the OS</h4>
+
+<p><strong>As a first step, open an incognito window in your browser.
+  This is important because it will prevent you from accidentally using the
+  Google cloud coupon for your personal or other account rather than your
+  lionmail account.</strong> 
+  In the incognito window, follow the link (or enter the URL)
+  <a href="https://console.cloud.google.com/education">console.cloud.google.com/education</a>
+  and log in with your Lionmail account credentials. After
+visiting this website, <strong>confirm that you are logged in with
+your Lionmail account</strong> by checking the top right of your
+screen. (If you enter your credit code into the wrong account, such as
+your personal Gmail account, you won't be able to transfer it later to
+your Lionmail account.) After confirming that you are logged in with
+your Lionmail account, enter the credit code ("coupon code") that we
+sent you by email.</p>
+
+<p>Then, to set up your VM on the Google Cloud, follow these steps:</p>
+
+<ol>
+<li>Go to <a href="https://console.cloud.google.com">console.cloud.google.com</a></li>
+<li>Click on &ldquo;Select a project&rdquo; at the top of the page, and then on
+&ldquo;NEW PROJECT&rdquo; on the right side</li>
+<li>Enter a &ldquo;Project name&rdquo; (e.g.,
+&ldquo;cs4111-001&rdquo;) and click &ldquo;CREATE&rdquo;</li>
+<li>Go back
+to <a href="https://console.cloud.google.com">console.cloud.google.com</a>
+and make sure that the project that you just created (e.g.,
+&ldquo;cs4111-001&rdquo;) is selected on the top navigation bar, next
+to &ldquo;Google Cloud Platform&rdquo;</li>
+<li>Click on the menu button in the top left hand corner and select
+the item &ldquo;Compute Engine&rdquo; and then &ldquo;VM
+instances&rdquo;</li>
+<li>Click &ldquo;Create&rdquo; to create your instance (roughly
+speaking, an instance is a computer that runs on the cloud)</li>
+<li>Type any name (for example, &ldquo;cs4111-instance&rdquo;)</li>
+<li>Change &ldquo;Region&rdquo; to &ldquo;us-east1 (South Carolina)&rdquo;
+<li>Change &ldquo;Zone&rdquo; to any &ldquo;us-east1-x&rdquo; (the
+last letter doesn&rsquo;t matter)</li>
+<li>Set "Machine type" to "n1-standard-1 (1 vCPU, 3.75 GB memory)"</li>
+<li>Change "Boot disk" to "Ubuntu 18.04 LTS"; change the boot disk size to 25 GB</li>
+<li>Check the "Allow HTTP traffic" and "Allow HTTPS traffic" boxes</li>
+<li>Click "Create"; wait until the green checkmark shows up (Note:
+External IP is the address to access your instance. You will use it
+for Part 3 to access your web application if you follow the Web
+Front-End Option. This IP address changes every time that the instance
+is restarted, so don't bother writing it down.)</li>
+</ol>
+
+<p> When a VM is created, it is automatically started as well. So
+please make sure that you stop the VM (see below) if you don't need to
+use it, to avoid wasting credits.</p>
+
+<h4>Using your VM</h4>
+
+<p>Background information: Each VM falls under a project on Google
+  Cloud. To start working, you should always make sure that you are
+  under the project that you created above for this class (e.g.,
+  &ldquo;cs4111-001&rdquo;).</p>
+
+<ol>
+<li>Go to <a href="https://console.cloud.google.com">console.cloud.google.com</a></li>
+<li>Select the correct project for the class (e.g., &ldquo;cs4111-001&rdquo;) at the
+  top of the page, next to &ldquo;Google Cloud Platform&rdquo;</li>
+<li>Click on the menu button in the top left hand corner and select the item &ldquo;Compute Engine&rdquo;</li>
+<li>Select the VM that you created above for the project (e.g., &ldquo;cs4111-instance&rdquo;) and, if it's not running already, select &ldquo;Start&rdquo; from the menu on the right (this process can take a minute)</li>
+<li>Once the VM has started up, there are two ways to connect:
+<ol>
+<li>On the page where you start the VM, you can connect to the VM
+through the browser by clicking on &ldquo;SSH&rdquo; in the same row
+as the rest of the VM&rsquo;s information. This opens a new browser
+window that you can interact with as you would with a Unix/Linux
+terminal.</li>
+<li>Alternatively, you can SSH into the VM by using the terminal,
+following the instructions available <a
+href="https://cloud.google.com/compute/docs/instances/connecting-to-instance">here</a>.</li>
+</ol></li>
+<li>To turn off the VM when you are done using it, select the VM and
+click &ldquo;Stop&rdquo; on the &ldquo;Compute Engine&rdquo;
+page. Make sure you turn off the VM whenever you or your partner
+aren&rsquo;t using it to avoid wasting credits. </li>
+</ol>
+
+<h4>Adding your Teammate to the VM</h4>
+<ol>
+<li>Go to <a href="https://console.cloud.google.com">console.cloud.google.com</a></li>
+<li>Make sure that you are in the project that the VM is associated with (see above)</li>
+<li>Click on the menu button in the top left hand corner and select the item &ldquo;IAM and Admin&rdquo;</li>
+<li>Click the &ldquo;Add&rdquo; button on the top middle of the page</li>
+<li>Type in your teammate&rsquo;s Lionmail address in the box labeled &ldquo;Members&rdquo;</li>
+<li>In the dropdown menu labeled &ldquo;Roles,&rdquo; select
+&ldquo;Project&rdquo; and then &ldquo;Owner&rdquo; to give your
+teammate full access to the resources of the project</li>
+<li>Once your teammate accepts the invitation, your teammate will be
+  able to use the VM as specified in the previous instructions; to switch to
+  your virtual environment <code>dbproj</code> on your VM (see below for how to
+  set up your virtual environment), your teammate should run:<br>
+  <code>source ../&lt;your_uni&gt;/.virtualenvs/dbproj/bin/activate</code>
+  <br> Note that your teammate should explicitly specify your UNI in
+  the path above ("<code>&lt;your_uni&gt;</code>") when your teammate
+  activates your environment in your VM.
+</li>
+</ol>
+
+<h3>Installing Additional Software</h3>
+
+<p>Before installing additional software, make sure to run:
+<br>
+<code>sudo apt-get update</code></p>
+
+<p>Then, install some software packages that we will need, using the Ubuntu
+package management tool <em>apt-get</em>. To install a package,
+type:<br> <code>sudo apt-get install &lt;packagename1 packagename2
+...&gt; </code></p>
+
+<p>Use this command to install the following packages:</p>
+<ul>
+<li>postgresql-10</li>
+<li>postgresql-server-dev-10</li>
+<li>git</li>
+<li>python-virtualenv</li>
+<li>python-dev</li>
+</ul>
+
+<h4>Setting Up Python</h4>
+
+<p>Python, which you will use for Part 3 of the project, uses its own
+package manager to install, update, and remove packages. In general, the
+following installs python packages:<br> <code>pip3 install
+&lt;packagename&gt;</code></p>
+
+<p>Typically the package manager will require <code>sudo</code> and
+install the packages in a global folder that affects everyone using
+your machine. This is bad practice because different Python
+applications may use different versions of packages and it's easy to
+step on each other's toes.</p>
+
+<p>We will use <code>virtualenv</code> to create virtual environments
+that contain their own copies of <code>python</code> and
+packages. When we work in a virtual environment, pip will install
+packages local to the environment rather than globally. If you are
+interested, you can read <a
+href="http://docs.python-guide.org/en/latest/dev/virtualenvs/">a
+detailed tutorial</a>. We already installed the
+<code>virtualenv</code> command with apt-get above.</p>
+
+<p>So let's set up your environment:</p>
+<ol>
+<li>First install <code>pip</code> for Python 3:
+<br><code>sudo apt install python3-pip</code></li>
+<li>Install some helper commands from the
+<code>virtualenvwrapper</code> package (this is the one time you
+should install globally):<br> <code>sudo pip3 install virtualenvwrapper
+</code></li>
+<li> Load the wrapper commands in the current shell:<br>
+  <code>export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3<br>
+    source /usr/local/bin/virtualenvwrapper.sh </code> </li>
+<li> To make sure this takes effect each time you log in, add that
+command to the end of your <code>~/.bashrc</code> file, either using
+an editor (like <code>nano ~/.bashrc</code>) or running the following:<br>
+<code>echo "source /usr/local/bin/virtualenvwrapper.sh" &gt;&gt;
+~/.bashrc</code> </li>
+<li>Create a new environment <code>dbproj</code> (you can of course
+  choose a different name, which you should then substitute
+  for <code>dbproj</code> in the rest of the instructions); this will
+  create a folder <code>dbproj/</code>
+  in <code>~/.virtualenvs/</code>):<br>
+<code>mkvirtualenv --python=/usr/bin/python3 dbproj </code> </li>
+<li> Switch to, or activate, the environment by running:<br>
+<code>source .virtualenvs/dbproj/bin/activate</code> </li>
+<li> Switch out of the environment:<br> <code>deactivate</code> </li>
+</ol>
+
+<p>Now let's install a set of useful packages into your
+environment:</p>
+<ol>
+<li>Activate your environment, as you did above</li>
+<li>Install the following packages using <code>pip3</code> (i.e., run <code>pip3 install &lt;packagename&gt;</code>)
+<ul>
+<li>flask</li>
+<li>psycopg2</li>
+<li>sqlalchemy</li>
+<li>click</li>
+</ul>
+</li>
+<li>Deactivate (and you're done!)</li>
+</ol>
+
+<h3>Testing that Things Work</h3>
+<p>Let's make sure you have access to Python and PostgreSQL.</p>
+
+<h4>Checking Python</h4>
+
+<p>Type <code>python3</code> and ensure that you see the following (the
+Python version may be a slightly different 3.6.X):</p>
+  <pre>
+    Python 3.6.8 (default, Aug 20 2019, 17:12:48)
+    [GCC 8.3.0] on linux
+    Type "help", "copyright", "credits" or "license" for more information.
+    &gt;&gt;&gt;</pre>
+
+<p>Then try importing some modules from the packages we installed:
+<br><code>
+&gt;&gt;&gt; import flask<br>
+&gt;&gt;&gt; import psycopg2<br>
+&gt;&gt;&gt; import sqlalchemy<br>
+&gt;&gt;&gt; import click
+</code>
+</p>
+
+<p>If that worked, push <code>ctrl+d</code> to exit the prompt.</p>
+
+<h4>Checking PostgreSQL</h4>
+<p>We will use the PostgreSQL DBMS in this class. Check that the
+client program works:<br>
+  <code>psql --version </code>
+</p>
+
+<p>If it prints something like the following then it works:</p>
+  <pre>psql (PostgreSQL) 10.10 (Ubuntu 10.10-0ubuntu0.18.04.1)</pre>
+
+<h3>Stopping Your Virtual Machine</h3>
+
+<p>While you have abundant credit for this class on Google Cloud, it
+is very easy to accidentally use up all of your credits. To conserve
+your credits --and also to avoid wasting energy-- make sure to turn
+off your machine whenever you are not using it, following the
+instructions under "Using your VM" above.</p>
+
+</div>
+<hr>
+</body>
+</html>

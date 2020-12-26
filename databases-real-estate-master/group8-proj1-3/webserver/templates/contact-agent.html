@@ -1,0 +1,72 @@
+<html>
+<style>
+    body {
+        font-size: 15pt;
+        font-family: arial;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+<script>
+    function validateDate() {
+
+        // Get the booking date from the form below
+        var bookingDateForm = document.forms["BookAgent"]["bookingDate"].value;
+        var bookingDate = new Date(bookingDateForm)
+
+        // Get today's date
+        var today = new Date()
+
+        // Make sure the booking date is after today.
+        // Alert and prevent the form from being submitted if it isn't.
+        if (bookingDate <= today) {
+            alert("Date must be after today " + today + " booking date " + bookingDate);
+            return false;
+        }
+
+
+    }
+
+</script>
+
+
+<body>
+    <h1>Contact Agent</h1>
+    <h3>Your login is: {{ person_id }}! Remember it to login again.</h3>
+    <p><a href="/">Logout</a></p>
+    <p><a href="home?person_id={{ person_id }}">Return to home page</a></p>
+
+    <p>The agent for this listing is: {{ name }}. Their realtor license number is: {{ realtor_license }}.</p>
+    <p>The property is at {{ address }}.</p>
+    <p>Email {{ name }}: {{ email }}</p>
+    <p>Call {{ name }}: {{ phone }}</p>
+
+    {% if person_type == "customer" %}
+    <h1>Book this agent</h1>
+    <form name="BookAgent" method="POST" action="/book-agent" onsubmit="return validateDate()">
+        <input type="hidden" name="person_id" value="{{ person_id }}" />
+        <input type="hidden" name="agent_id" value="{{ agent_id }}" />
+        <label for=" bookingDate">Date (will be coverted to GMT):</label>
+        <input type="date" id="bookingDate" name="bookingDate" required>
+        <label for=" bookingTime">Time between 9am and 5pm:</label>
+        <input type="time" id="bookingTime" name="bookingTime" min="09:00" max="18:00" required>
+        <label for="bookingLocation">Choose a meeting location:</label>
+        <select id="bookingLocation" name="bookingLocation" required>
+            <option value="Agent's Office">Agent's Office</option>
+            <option value="{{ address }}">{{ address }}</option>
+        </select>
+        <input type="submit">
+    </form>
+    {% else %}
+    <h3>Return home and make a customer account to book an agent. <a href="home?person_id={{ person_id }}">Return to
+            home page</a></h3>
+    {% endif %}
+
+</body>
+
+
+</html>

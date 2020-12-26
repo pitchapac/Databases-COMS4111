@@ -1,0 +1,64 @@
+<html>
+<style>
+    body {
+        font-size: 15pt;
+        font-family: arial;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+<body>
+    <h1>Bookings With Agents</h1>
+    <h3>Your login is: {{ person_id }}! Remember it to login again.</h3>
+    <p><a href="/">Logout</a></p>
+    <p><a href="home?person_id={{ person_id }}">Return to home page</a></p>
+
+    <h2>Hello: {{ name }}</h2>
+    <br />
+
+    <h2>View your upcoming bookings</h2>
+    <table>
+
+        {% set upcoming_bookings = session.pop('upcoming-bookings', []) %}
+        {% for header in upcoming_bookings[0] %}
+        <th>{{ header }}</th>
+        {% endfor %}
+
+        {% for booking in upcoming_bookings[1:] %}
+        <tr>
+            {% for field in booking %}
+            <td>{{ field|safe }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+    <br />
+
+
+
+    <h2>View your prior bookings and review your agents</h2>
+    <table>
+
+        {% set prior_bookings = session.pop('prior-bookings', []) %}
+        {% for header in prior_bookings[0] %}
+        <th>{{ header }}</th>
+        {% endfor %}
+
+        {% for booking in prior_bookings[1:] %}
+        <tr>
+            {% for field in booking %}
+            <td>{{ field|safe }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+</body>
+
+
+</html>

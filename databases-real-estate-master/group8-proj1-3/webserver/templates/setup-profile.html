@@ -1,0 +1,63 @@
+<html>
+<style>
+  body {
+    font-size: 15pt;
+    font-family: arial;
+  }
+</style>
+<script>
+  function validateAge() {
+    // Get the date of birth from the form below
+    var dateOfBirthForm = document.forms["ProfileSetup"]["birthday"].value;
+    var dateOfBirth = new Date(dateOfBirthForm)
+
+    // Get today's date
+    var today = new Date();
+
+    // Calculate the date needed to be 18 years old today
+    var over18 = new Date(today.getUTCFullYear() - 18, today.getUTCMonth(), today.getUTCDate())
+
+    // See if the person is over 18 and provide a pop-up preventing them
+    // from submitting the form if they aren't.
+    if (over18 < dateOfBirth) {
+      alert("You must be over 18 to use this site.");
+      return false;
+    }
+
+  }
+</script>
+
+
+<body>
+  <h1>Make a new profile</h1>
+
+
+  <p><a href="/">Go back to login</a></p>
+
+  {% if edit == "yes" %}
+  <h2>Edit profile</h2>
+  <form name="ProfileSetup" method="POST" action="/edit-profile" onsubmit="return validateAge()">
+    <input type="hidden" name="person_id" value="{{ person_id }}" />
+    {% else %}
+    <h2>Person setup</h2>
+    <form name="ProfileSetup" method="POST" action="/add-profile" onsubmit="return validateAge()">
+
+      {% endif %}
+
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" pattern="^[a-zA-Z ]+${1,49}" maxlength=50>
+      <label for="birthday">Birthday:</label>
+      <input type="date" id="birthday" name="birthday">
+      <label for="email">Enter your email:</label>
+      <input type="email" id="email" name="email" maxlength=50>
+      <input type="tel" id="phone" name="phone" placeholder="123-456-6789" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+        required><br><br>
+      <small>Format: 123-456-6789</small><br><br>
+      <input type="submit" value="Add">
+    </form>
+
+
+</body>
+
+
+</html>

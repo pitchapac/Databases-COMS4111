@@ -1,0 +1,76 @@
+<html>
+<style>
+    body {
+        font-size: 15pt;
+        font-family: arial;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+<script>
+    function validateDate() {
+        // Get the date of sale fom the form below.
+        var saleDateForm = document.forms["MarkPropertyAsSold"]["saleDate"].value;
+        var saleDate = new Date(saleDateForm)
+
+        // Get the list date from the form below.
+        var listDateForm = document.forms["MarkPropertyAsSold"]["list_date"].value;
+        var listDate = new Date(listDateForm)
+
+        // Get today's date.
+        var today = new Date()
+
+        // Make sure that the sale happened before today.
+        if (saleDate > today) {
+            alert("Date must be before today.");
+            return false;
+        }
+
+        // Make sure the sale did not happen before the property was listed.
+        if (saleDate < listDate) {
+            alert("Date must be after the list date.");
+            return false;
+        }
+
+
+    }
+
+</script>
+
+
+
+
+<body>
+    <h1>Mark Property As Sold</h1>
+    <h3>Your login is: {{ person_id }}! Remember it to login again.</h3>
+    <p><a href="/">Logout</a></p>
+    <p><a href="home?person_id={{ person_id }}">Return to home page</a></p>
+
+    <h2>Hello: {{ name }}</h2>
+    <p>The property address is: {{ address }}</p>
+    <p>The list price was: {{ price }}</p>
+    <p>This property was listed on: {{ list_date }}</p>
+
+    <form name="MarkPropertyAsSold" method="POST" action="/property-sold" onsubmit="return validateDate()">
+        <input type="hidden" name="person_id" value="{{ person_id }}" />
+        <input type="hidden" name="property_id" value="{{ property_id }}" />
+        <input type="hidden" name="list_date" value="{{ list_date }}" />
+
+        <label for="salePrice">Sale Price:</label>
+        <input type="number" name="salePrice" id="salePrice" min="0" max="999999999" required>
+
+        <label for=" saleDate">Sale Date:</label>
+        <input type="date" id="saleDate" name="saleDate" required>
+
+        <input type="submit" value="Save">
+    </form>
+
+</body>
+
+
+</html>

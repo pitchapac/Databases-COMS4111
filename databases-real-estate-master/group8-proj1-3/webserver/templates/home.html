@@ -1,0 +1,134 @@
+<html>
+<style>
+    body {
+        font-size: 15pt;
+        font-family: arial;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+
+<body>
+    <h1>Home Page</h1>
+    <h3>Your login is: {{ person_id }}! Remember it to login again.</h3>
+    <p><a href="/">Logout</a></p>
+
+    <p>Note: Times are in GMT. Times you enter will be converted to GMT.</p>
+    <p>This is your profile.</p>
+    <br />
+    {% set edit_value = "yes" %}
+    <a href="{{ url_for('setup_profile', person_id=person_id, edit=edit_value) }}">Edit your profile</a>
+    <br />
+    <p><a href="{{ url_for('reviews', person_id=person_id) }}">View reviews</a></p>
+    <br />
+
+
+
+    <h2>Customer Information</h2>
+    {% if is_customer == "True" %}
+    Welcome customer: {{ person_id }}
+    <br />
+
+    <a href="{{ url_for('customer_listings', person_id=person_id) }}">View Customized Listings Search</a>
+    <br />
+    {% set edit_value = "yes" %}
+    <a href="{{ url_for('setup_customer', person_id=person_id, edit=edit_value) }}">Edit your customer profile</a></li>
+    <br />
+    <a href="{{ url_for('show_customer_bookings', person_id=person_id) }}">View your bookings with agents</a>
+    <br />
+
+    </li>
+
+
+    <div>
+
+        <h3>Saved Properties</h3>
+
+        <table>
+            <tr>
+                <th>Day Listed</th>
+                <th>Number of Beds</th>
+                <th>Number of Baths</th>
+                <th>Address</th>
+                <th>Zipcode</th>
+                <th>Property Type</th>
+                <th>Price</th>
+                <th>Delete Saved Property</th>
+                <th>Contact Agent</th>
+            </tr>
+            {% for item in saved_prop %}
+            {% set item_1 = item[0]|safe%}
+            {% set item_2 = item[1]|safe%}
+            {% set item_3 = item[2]|safe%}
+            {% set item_4 = item[3]|safe%}
+            {% set item_5 = item[4]|safe%}
+            {% set item_6 = item[5]|safe%}
+            {% set item_7 = item[6]|safe%}
+            {% set item_8 = item[7]|safe%}
+            {% set item_9 = item[8]|safe%}
+
+
+            <tr>
+                <td>{{item_1}}</td>
+                <td>{{item_2}}</td>
+                <td>{{item_3}}</td>
+                <td>{{item_4}}</td>
+                <td>{{item_5}}</td>
+                <td>{{item_6}}</td>
+                <td>{{item_7}}</td>
+                <td>{{item_8}}</td>
+                <td>{{item_9}}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+
+
+        {% else %}
+        <p><a href="{{ url_for('listings', person_id=person_id, edit=edit_value) }}">View property listings</a></p>
+        <br />
+        <p><a href="{{ url_for('setup_customer', person_id=person_id) }}">Click here to create your customer profile</a>
+        </p>
+        <br />
+        {% endif %}
+
+
+
+        <h2>Agent Information</h2>
+        {% if is_agent == "True" %}
+        Welcome agent: {{ person_id }}
+        <br />
+        {% set edit_value = "yes" %}
+        <a href="{{ url_for('setup_agent', person_id=person_id, edit=edit_value) }}">Edit your agent profile</a></li>
+        <br />
+        <a href="{{ url_for('show_agent_bookings', person_id=person_id) }}">View your bookings with customers</a>
+        <br />
+
+        <a href="{{ url_for('agent_sold', person_id=person_id) }}">View sold properties that you represent</a>
+        <br />
+        <a href="{{ url_for('agent_available', person_id=person_id) }}">View available properties that you represent</a>
+        <br />
+
+        {% else %}
+        <a href="{{ url_for('setup_agent', person_id=person_id) }}">Click here to create your agent profile</a></li>
+        <br />
+        {% endif %}
+
+        <h2>Seller Information</h2>
+        <a href="{{ url_for('list_property', person_id=person_id) }}">List a property to rent or sell</a>
+        <br />
+        <a href="{{ url_for('listed_properties', person_id=person_id) }}">View the listings you are selling</a>
+        <br />
+        <a href="{{ url_for('listed_properties_sold', person_id=person_id) }}">View the listings you have sold</a>
+        <p></p>
+        <p></p>
+
+</body>
+
+
+</html>

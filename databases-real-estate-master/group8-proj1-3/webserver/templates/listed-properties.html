@@ -1,0 +1,46 @@
+<html>
+
+<body>
+
+    <h3>Your login is: {{ person_id }}! Remember it to login again.</h3>
+    <p><a href="/">Logout</a></p>
+    <p><a href="home?person_id={{ person_id }}">Return to home page</a></p>
+
+
+    <head>
+        <style>
+            table,
+            th,
+            td {
+                border: 1px solid black;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <h1>Listed properties still avalible for purchase</h1>
+
+        <table>
+
+            {% set listings = session.pop('available_prop', []) %}
+            {% for header in listings[0] %}
+            <th>{{ header }}</th>
+            {% endfor %}
+
+            {% for listing in listings[1:] %}
+            <tr>
+                {% for field in listing %}
+                <td>{{ field|safe }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+    </body>
+
+
+
+</body>
+
+
+</html>

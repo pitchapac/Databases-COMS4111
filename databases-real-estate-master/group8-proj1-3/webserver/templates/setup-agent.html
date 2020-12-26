@@ -1,0 +1,36 @@
+<html>
+<style>
+  body {
+    font-size: 15pt;
+    font-family: arial;
+  }
+</style>
+
+
+<body>
+  <h1>Make a new agent profile</h1>
+  <p><a href="/">Logout</a></p>
+  <p><a href="home?person_id={{ person_id }}">Return to home page</a></p>
+
+  {% if edit == "yes" %}
+  <h2>Edit agent</h2>
+  <form method="POST" action="/edit-agent">
+    {% else %}
+    <h2>Agent setup</h2>
+    <form method="POST" action="/add-agent">
+
+      {% endif %}
+
+      <input type="hidden" name="person_id" value="{{ person_id }}" />
+
+      <label for="realtorLicense">Realtor License 12 digit number</label>
+      <input type="text" name="realtorLicense" id="realtorLicense" pattern="[0-9]{12}"
+        title="A license has 12 digits and can being with a zero." maxlength=12 required>
+
+      <input type="submit" value="Save">
+    </form>
+
+</body>
+
+
+</html>

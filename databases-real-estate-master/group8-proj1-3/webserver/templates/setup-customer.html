@@ -1,0 +1,74 @@
+<html>
+<style>
+  body {
+    font-size: 15pt;
+    font-family: arial;
+  }
+</style>
+
+<script>
+  function validateBudgetOrdering() {
+    // Get the max budget field from the customer setup form below
+    var maxBudget = document.forms["CustomerSetup"]["maxBudget"].value;
+    // Get the min budget field from the customer setup form below
+    var minBudget = document.forms["CustomerSetup"]["minBudget"].value;
+
+    // Alert if the max budget is not greater than the min budget
+    // Need to compare the numbers are integers
+    if (parseInt(maxBudget) <= parseInt(minBudget)) {
+      alert("Maximum price must be greater than minumum price.");
+      return false;
+    }
+
+  }
+</script>
+
+
+<body>
+  <h1>Customer Profile</h1>
+  <h3>Your login is: {{ person_id }}!</h3>
+  <p><a href="/">Logout</a></p>
+  <p><a href="home?person_id={{ person_id }}">Return to home page</a></p>
+
+
+  {% if edit == "yes" %}
+  <h2>Edit customer</h2>
+  <form name="CustomerSetup" method="POST" action="/edit-customer" onsubmit="return validateBudgetOrdering()">
+
+    {% else %}
+    <h2>Customer setup</h2>
+    <form name="CustomerSetup" method="POST" action="/add-customer" onsubmit="return validateBudgetOrdering()">
+
+
+      {% endif %}
+      <input type="hidden" name="person_id" value="{{ person_id }}" />
+
+      <label for="propertyType">Choose a property type:</label>
+      <select id="propertyType" name="propertyType" required>
+        <option value="rentable">Rentable</option>
+        <option value="buyable">Buyable</option>
+      </select>
+
+      <label for="maxBudget">Maximum Price</label>
+      <input type="number" name="maxBudget" id="maxBudget" min="0" max="999999999" required>
+
+      <label for="minBudget">Minimum Price</label>
+      <input type="number" name="minBudget" id="minBudget" min="0" max="999999999" required>
+
+      <label for="desiredBeds">Desired Beds</label>
+      <input type="number" name="desiredBeds" id="desiredBeds" min="0" max="99" required>
+
+      <label for="desiredBaths">Desired Baths</label>
+      <input type="number" name="desiredBaths" id="desiredBaths" min="0" max="99" required>
+
+      <label for="zipcode">Desired Zipcode</label>
+      <input type="text" name="zipcode" id="zipcode" pattern="[0-9]{5}" title="A zipcode has 5 digits." required>
+
+      <input type="submit" value="Save">
+    </form>
+
+
+</body>
+
+
+</html>

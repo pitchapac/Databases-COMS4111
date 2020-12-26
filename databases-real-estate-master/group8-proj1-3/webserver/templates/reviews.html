@@ -1,0 +1,87 @@
+<html>
+<style>
+    body {
+        font-size: 15pt;
+        font-family: arial;
+    }
+
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+<body>
+    <h1>Filter Reviews</h1>
+    <h3>Your login is: {{ person_id }}! Remember it to login again.</h3>
+    <p><a href="/">Logout</a></p>
+    <p><a href="home?person_id={{ person_id }}">Return to home page</a></p>
+
+    <h2>Hello: {{ name }}</h2>
+
+    <h2>Search by agent name</h2>
+    <form name="FilterReivewsAgents" method="POST" action="/filter-reviews-agents">
+        <input type="hidden" name="person_id" value="{{ person_id }}" />
+
+        {% set agents = session.pop('agents', []) %}
+        <label for="selectedAgent">Choose an agent:</label>
+        <select id="selectedAgent" name="selectedAgent" required>
+            {% for agent in agents %}
+            <option value="{{ agent[0] }}">{{ agent[1] }}</option>
+            {% endfor %}
+        </select>
+        <input type="submit" value="Search">
+    </form>
+
+    <h2>Search by customer name</h2>
+    <form name="FilterReivews" method="POST" action="/filter-reviews-customers">
+        <input type="hidden" name="person_id" value="{{ person_id }}" />
+
+        {% set customers = session.pop('customers', []) %}
+        <label for="selectedCustomer">Choose a customer:</label>
+        <select id="selectedCustomer" name="selectedCustomer" required>
+            {% for customer in customers %}
+            <option value="{{ customer[0] }}">{{ customer[1] }}</option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Search">
+    </form>
+
+    <h2>Search by agent rating</h2>
+    <form name="FilterReivewsRatings" method="POST" action="/filter-reviews-ratings">
+        <input type="hidden" name="person_id" value="{{ person_id }}" />
+
+        <label for="selectedRating">Choose an agent rating:</label>
+        <select id="selectedRating" name="selectedRating" required>
+            <option value="1">one star</option>
+            <option value="2">two stars</option>
+            <option value="3">three stars</option>
+            <option value="4">four stars</option>
+            <option value="5">five stars</option>
+        </select>
+        <input type="submit" value="Search">
+    </form>
+
+    <h3>Search Results</h3>
+    <table>
+        {% set reviews = session.pop('reviews', []) %}
+        {% for header in reviews[0] %}
+        <th>{{ header }}</th>
+        {% endfor %}
+
+        {% for review in reviews[1:] %}
+        <tr>
+            {% for field in review %}
+            <td>{{ field|safe }}</td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+
+</body>
+
+
+</html>
